@@ -25,9 +25,9 @@ int main(void){
 			scanf("%d-%d", &a, &b);
 			fprintf(S1, "%d -- %d;\n", a,b);
 			rebro_count++;
-				if((is_connected[a] != -1)&(is_connected[b] == -1))
+				if((is_connected[a] != -1)&&(is_connected[b] == -1))
 					is_connected[b] = is_connected[a];
-				if((is_connected[b] != -1)&(is_connected[a] == -1))
+				if((is_connected[b] != -1)&&(is_connected[a] == -1))
 					is_connected[a] = is_connected[b];
 				if ((is_connected[a] < is_connected[b])&(is_connected[a] != -1)){
 					int find = is_connected[b];
@@ -35,13 +35,13 @@ int main(void){
 						if(is_connected[i] == find)
 							is_connected[i] = is_connected[a] ;
 				}
-				if ((is_connected[b] == 1)&(is_connected[a] != -1)){
+				if ((is_connected[b] == 1)&&(is_connected[a] != -1)){
 					int find = is_connected[a];
 					for (int i = 0; i < 255; i++)
 						if(is_connected[i] == find)
 							is_connected[i] = is_connected[b];
 				}
-				if ((is_connected[a] == -1)&(is_connected[b] == -1)){
+				if ((is_connected[a] == -1)&&(is_connected[b] == -1)){
 					is_connected[a] = is_connected[b] = rebro_count;
 				}
 		} while(getchar() != 's');
