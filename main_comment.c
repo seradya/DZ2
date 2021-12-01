@@ -62,7 +62,7 @@ int main(void){
 		printf("%s", "Граф - не дерево");
 
 	system("dot C:/Users/serad/Documents/univer/FLAT/DZ2/S1.txt -Tbmp -o S1.bmp"); //graphiz рисует визуализацию по файлу, указать путь до файла
-	ShellExecuteA(GetDesktopWindow(),"open","C:/Users/serad/Documents/univer/FLAT/DZ2/S1.bmp",NULL,NULL,SW_SHOW); //цштвщцы открывает картинку,
+	ShellExecuteA(GetDesktopWindow(),"open","C:/Users/serad/Documents/univer/FLAT/DZ2/S1.bmp",NULL,NULL,SW_SHOW); //graphiz открывает картинку,
 																													//указать путь до картинки
 	return 0; //функция main возвращает "0", что означает, что программа завершена без ошибок
 }		
