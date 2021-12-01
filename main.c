@@ -1,63 +1,56 @@
-#include <stdio.h>
+#include <stdio.h> 
 #include <stdlib.h>
-
+#include <windows.h>
+#include <ShellApi.h> 
+#define swap(x,y) {int t = a; a = b; b = t;}
 int main(void){
 
 	int rebro_count = 0;
 	int node_count = 0;
-	int is_connected[255];
-	for (int i = 0; i < 255; i++)
-		is_connected[i] = -1;
-
 	int a = 0, b = 0;
-	scanf("%d-%d", &a, &b);
-	rebro_count++;
-	is_connected[a] = 1;
-	is_connected[b] = 1;
+	int link[255];
+	for (int i = 0; i < 255; i++)
+		link[i] = -1;
 
 	FILE *S1;
 	S1 = fopen("S1.txt", "w");
 	fprintf(S1, "%s\n", "graph My_graph {");
-	fprintf(S1, "%d -- %d;\n", a,b);
 
-	if(getchar() != 's'){
-		do{
-			scanf("%d-%d", &a, &b);
+		while(scanf("%d-%d", &a, &b) != 0){
 			fprintf(S1, "%d -- %d;\n", a,b);
 			rebro_count++;
-				if((is_connected[a] != -1)&&(is_connected[b] == -1))
-					is_connected[b] = is_connected[a];
-				if((is_connected[b] != -1)&&(is_connected[a] == -1))
-					is_connected[a] = is_connected[b];
-				if ((is_connected[a] < is_connected[b])&(is_connected[a] != -1)){
-					int find = is_connected[b];
-					for (int i = 0; i < 255; i++)
-						if(is_connected[i] == find)
-							is_connected[i] = is_connected[a] ;
+		
+			if(link[a]*link[b] < 0){
+				if (a < b)
+					swap(a,b);
+				link[a] = link[b];
+				node_count++;
+			}
+			else if ((link[a]*link[b] == 1)&&(link[a] != 1)){
+				link[a] = link[b] = rebro_count;
+				node_count += 2;
+			}
+			else{
+				if (a < b)
+					swap(a,b);
+				int find = link[a];
+				for (int i = 0; i < 255; i++){
+					if(link[i] == find){
+						link[i] = link[b];
+					}
 				}
-				if ((is_connected[b] == 1)&&(is_connected[a] != -1)){
-					int find = is_connected[a];
-					for (int i = 0; i < 255; i++)
-						if(is_connected[i] == find)
-							is_connected[i] = is_connected[b];
-				}
-				if ((is_connected[a] == -1)&&(is_connected[b] == -1)){
-					is_connected[a] = is_connected[b] = rebro_count;
-				}
-		} while(getchar() != 's');
-	}
-
+			}
+		}
 
 	fprintf(S1, "%s", "}");
 	fclose(S1);
 
 	int is_tree = 1;
 	for(int i = 1; i <255; i++){
-		if(is_connected[i] != -1)
-			node_count++;
-		if((is_connected[i] != -1)&(is_connected[i] != 1))
+		if((link[i] != -1)&&(link[i] != 1))
 			is_tree = 0;
 		}
+
 	if ((node_count -(rebro_count)) != 1)
 		is_tree = 0;
 
@@ -65,7 +58,9 @@ int main(void){
 		printf("%s", "Граф - дерево");
 	else
 		printf("%s", "Граф - не дерево");
+
 	system("dot C:/Users/serad/Documents/univer/FLAT/DZ2/S1.txt -Tbmp -o S1.bmp");
-	//system("rundll32 C:/Program Files/Windows Photo Viewer/PhotoViewer.dll, ImageView_Fullscreen C:/Users/serad/Documents/univer/FLAT/DZ2/S1.bmp");
+	ShellExecuteA(GetDesktopWindow(),"open","C:/Users/serad/Documents/univer/FLAT/DZ2/S1.bmp",NULL,NULL,SW_SHOW);
+
 	return 0;
 }		
